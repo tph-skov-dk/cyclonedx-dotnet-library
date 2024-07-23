@@ -41,6 +41,10 @@ namespace CycloneDX.Spdx.Interop.Helpers
                 var orgs = bom.Metadata.Properties?.GetSpdxElements(PropertyTaxonomy.CREATION_INFO_LICENSE_CREATORS_ORGANIZATIONS) ?? new List<string>();
                 foreach (var author in bom.Metadata.Authors)
                 {
+                    if (String.IsNullOrEmpty(author.Email))
+                    {
+                        author.Email = "no-author@skov.com";
+                    }
                     if (orgs.Contains(author.Name))
                     {
                         creators.Add($"Organization: {author.Name} ({author.Email})");

@@ -41,6 +41,16 @@ namespace CycloneDX.Spdx.Interop.Helpers
                     Description = package.Description,
                     Properties = new List<Property>(),
                 };
+
+                ExternalRef cpe = package.ExternalRefs?.Find((p) => p.ReferenceType == "http://spdx.org/rdf/references/cpe23Type");
+                if (cpe != null)
+                {
+                    component.Cpe = cpe.ReferenceLocator;
+                } else
+                {
+                    Console.WriteLine($"Attempted to find CPE for package '{package.Name}', got null.");
+                }
+                
                 component.Properties.AddSpdxElement(PropertyTaxonomy.SPDXID, package.SPDXID);
                 component.Properties.AddSpdxElements<Models.v2_2.Annotation>(PropertyTaxonomy.ANNOTATION, package.Annotations);
                 component.Properties.AddSpdxElement(PropertyTaxonomy.FILES_ANALYZED, package.FilesAnalyzed);
@@ -175,7 +185,7 @@ namespace CycloneDX.Spdx.Interop.Helpers
                 component.AddSpdxAttributionTexts(package.AttributionTexts);
                 component.AddSpdxChecksums(package.Checksums);
                 component.AddSpdxExternalRefs(package.ExternalRefs);
-                
+
                 if (package.DownloadLocation != null)
                 {
                     if (component.ExternalReferences == null) component.ExternalReferences = new List<ExternalReference>();
