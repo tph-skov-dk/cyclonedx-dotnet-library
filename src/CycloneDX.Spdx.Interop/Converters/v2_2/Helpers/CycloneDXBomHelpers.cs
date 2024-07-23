@@ -48,7 +48,7 @@ namespace CycloneDX.Spdx.Interop.Helpers
                     component.Cpe = cpe.ReferenceLocator;
                 } else
                 {
-                    Console.WriteLine($"Attempted to find CPE for package '{package.Name}', got null.");
+                    Console.Error.WriteLine($"Attempted to find CPE for package '{package.Name}', got null.");
                 }
                 
                 component.Properties.AddSpdxElement(PropertyTaxonomy.SPDXID, package.SPDXID);
